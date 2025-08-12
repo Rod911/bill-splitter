@@ -31,15 +31,15 @@ const data = JSON.parse(saved!);
 
 const BillSplitter = () => {
   const [items, setItems] = useState<Item[]>(
-    data.items ?? { id: 1, name: "", unitPrice: 0, quantity: 1, total: 0 }
+    data?.items ?? [{ id: 1, name: "", unitPrice: 0, quantity: 1, total: 0 }]
   );
-  const [taxRate, setTaxRate] = useState<number>(data.taxRate ?? 0);
-  const [members, setMembers] = useState<string[]>(data.members ?? []);
+  const [taxRate, setTaxRate] = useState<number>(data?.taxRate ?? 0);
+  const [members, setMembers] = useState<string[]>(data?.members ?? []);
   const [assignments, setAssignments] = useState<Assignment>(
-    data.assignments ?? {}
+    data?.assignments ?? {}
   );
-  const [selectedMembers, setSelectedMembers] = useState<SelectedMembers>(data.selectedMembers??{});
-  const [roundOffTotal, setRoundOffTotal] = useState<boolean>(data.roundOffTotal ?? false);
+  const [selectedMembers, setSelectedMembers] = useState<SelectedMembers>(data?.selectedMembers??{});
+  const [roundOffTotal, setRoundOffTotal] = useState<boolean>(data?.roundOffTotal ?? false);
 
   // Save to localStorage whenever state changes
   useEffect(() => {
@@ -173,7 +173,7 @@ const BillSplitter = () => {
     member: string,
     quantity: string | number
   ) => {
-    const roundedQty = Math.round(parseFloat(quantity as string) * 10) / 10; // Round to 1 decimal place
+    const roundedQty = Math.round(parseFloat(quantity as string) * 100) / 100; // Round to 2 decimal place
     setAssignments((prev) => ({
       ...prev,
       [itemId]: {
@@ -701,7 +701,7 @@ const BillSplitter = () => {
                                     e.target.value
                                   )
                                 }
-                                step="0.1"
+                                step="0.01"
                                 min="0"
                                 className="w-16 p-1 border rounded text-center text-sm"
                               />
